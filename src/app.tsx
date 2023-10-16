@@ -24,7 +24,7 @@ export default function App() {
     const [droppedData, setDroppedData] = useState<ExcelRow[]>(initialScores)
 
     function handleSheetData(data: ExcelRow[]) {
-        setDroppedData([...droppedData, ...data])
+        setDroppedData(previousData => [...previousData, ...data])
     }
 
     const [groupedNewScores, highestScoreFromNewData] = groupData(droppedData)
@@ -70,7 +70,7 @@ export default function App() {
                                 some of our components.
                             </P>
                         </Box>
-                        <FormModal onSave={(row) => setDroppedData([...droppedData, row])}/>
+                        <FormModal onSave={(row) => setDroppedData(previousData => [...previousData, row])}/>
                         <ScoreDisplay highestScores={highestScoreFromNewData} groupedScores={groupedNewScores}/>
                     </VStack>
                 </HStack>
