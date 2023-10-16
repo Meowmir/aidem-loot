@@ -9,7 +9,7 @@ export default function ScoreDisplay({highestScores, groupedScores}: {
     groupedScores: Map<string, number[]>
 }) {
 
-    const sortedScores = highestScores.sort((a, b) => a.score < b.score ? 1 : -1)
+    const sortedScores = highestScores
     const [showUserScores, setShowUserScores] = useState<string | null>(null)
 
     return (

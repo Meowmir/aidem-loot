@@ -7,6 +7,8 @@ import ScoreDisplay from "./components/score-display";
 import {FormModal} from "./components/form-modal";
 import {initialData} from "./functions/initial-data";
 import {groupData} from "./functions/group-data";
+import scores from "./scores";
+import users from "./users";
 
 interface ExternalLinkProps {
     href: string,
@@ -18,7 +20,7 @@ const ExternalLink = ({href, children}: ExternalLinkProps) => <Link href={href} 
     textDecoration: 'underline'
 }}>{children}</Link>
 
-const initialScores = initialData()
+const initialScores = initialData(scores, users)
 
 export default function App() {
     const [droppedData, setDroppedData] = useState<ExcelRow[]>(initialScores)
