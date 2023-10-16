@@ -1,8 +1,5 @@
 import {ExcelRow} from "../excel-dropzone";
-import scores from "../scores";
-import users from "../users";
-
-export function initialData(): ExcelRow[] {
+export function initialData(scores: {userId: number, score: number}[], users: {name: string, _id: number}[]): ExcelRow[] {
 
     const groupedScores: Map<number, number[]> = new Map()
 
