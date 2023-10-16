@@ -5,8 +5,8 @@ import {palette} from '@northlight/tokens'
 import {ExcelDropzone, ExcelRow} from './excel-dropzone.jsx'
 import ScoreDisplay from "./components/score-display";
 import {FormModal} from "./components/form-modal";
-import users from "./users";
-import scores from "./scores";
+import {initialData} from "./functions/initial-data";
+import {groupData} from "./functions/group-data";
 
 interface ExternalLinkProps {
     href: string,
@@ -18,25 +18,6 @@ const ExternalLink = ({href, children}: ExternalLinkProps) => <Link href={href} 
     textDecoration: 'underline'
 }}>{children}</Link>
 
-function initialData(): ExcelRow[] {
-
-    const groupedScores: Map<number, number[]> = new Map()
-
-    scores.forEach((userScore) => {
-        const existing = groupedScores.get(userScore.userId) || []
-        groupedScores.set(userScore.userId, [...existing, userScore.score])
-    })
-
-    const allScoresForEachUser = users.flatMap((user) => {
-        const allScores = groupedScores.get(user._id) || []
-        return allScores.map((score): ExcelRow => ({
-            name: user.name, score
-        }))
-    })
-
-    return allScoresForEachUser
-}
-
 const initialScores = initialData()
 
 export default function App() {
@@ -46,17 +27,7 @@ export default function App() {
         setDroppedData([...droppedData, ...data])
     }
 
-    const groupedNewScores = new Map()
-
-    droppedData.forEach((user) => {
-        const existing = groupedNewScores.get(user.name) || []
-        groupedNewScores.set(user.name, [...existing, user.score].sort((a, b) => a < b ? 1 : -1))
-    })
-
-    const highestScoreFromNewData = [...groupedNewScores].map(([name, score]) => ({
-        name, score: Math.max(...groupedNewScores.get(name))
-    }))
-
+    const [groupedNewScores, highestScoreFromNewData] = groupData(droppedData)
 
     return (
         <ChakraProvider>
