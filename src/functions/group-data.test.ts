@@ -24,4 +24,20 @@ describe("groupData", () => {
             {name: "Green", score: 800}
         ])
     })
+    const rowsWithDuplicated: ExcelRow[] = [
+        {name: "Red", score: 900},
+        {name: "Red", score: 400},
+        {name: "Red", score: 700},
+        {name: "Green", score: 900},
+        {name: "Blue", score: 900},
+        {name: "Blue", score: 600},
+    ]
+    it("should correctly sort similar scores", () => {
+        const [, highest] = groupData(rowsWithDuplicated)
+        expect(highest).toEqual([
+            {name: "Red", score: 900},
+            {name: "Green", score: 900},
+            {name: "Blue", score: 900},
+        ])
+    })
 })
